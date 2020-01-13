@@ -37,7 +37,7 @@ public class Player {
   @Autowired
   private RestTemplate rest;
   
-  private String player = "player_1";
+  private String player;
   
   @Value("${application.startUrl}")
   private String startUrl;
@@ -52,12 +52,23 @@ public class Player {
    * 
    */
   public void runGame() {
-    startNewGame();
+    String status = startNewGame();
     Board board = readBoard();
+    status = board.getStatus();
     board.printBoard();
-    String player = board.toMove();
-    Integer nextMove = board.randomMove();
-    turn(player, nextMove);
+    while ("running".equals(status)) {
+      String player = board.toMove();
+      Integer nextMove = board.randomMove();
+      turn(player, nextMove);
+      board = readBoard();      
+      status = board.getStatus();
+      board.printBoard();
+      try {
+        Thread.sleep(500);
+      } catch (InterruptedException e) {
+        logger.info("Interrupted");
+      }
+    }
   }
 
   /**
