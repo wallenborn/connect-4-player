@@ -30,8 +30,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.example.connect4.TestApplicationConfiguration;
 import com.example.connect4.game.Board;
 import com.example.connect4.game.Evaluator;
+import com.example.connect4.game.Game;
 import com.example.connect4.json.Stone;
-import com.example.connect4.player.Player;
 
 /**
  * EvaluatorTest.
@@ -44,7 +44,7 @@ public class EvaluatorTest {
   private static final Logger logger = LoggerFactory.getLogger(EvaluatorTest.class);
 
   @Autowired
-  private Player player;
+  private Game player;
 
   @Autowired
   private Evaluator evaluator;
@@ -95,6 +95,7 @@ public class EvaluatorTest {
   @Test
   public void canEvaluate() {
     board.printBoard();
-    logger.info("Winner is {}", evaluator.evaluateBoard(board));
+    logger.info("Winner is {}", evaluator.findWinner(board));
+    //logger.info("Winner is {}", evaluator.evaluateBoard(board));
   }
 }

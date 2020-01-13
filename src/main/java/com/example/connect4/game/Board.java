@@ -10,10 +10,6 @@
 
 package com.example.connect4.game;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.example.connect4.json.BoardResponse;
 import com.example.connect4.json.Stone;
 
@@ -26,11 +22,21 @@ public class Board {
   protected static final int NUM_COLS = 7;
   protected static final int NUM_ROWS = 6;
   
-  private Integer[][] board = new Integer[NUM_ROWS][NUM_COLS];
+  private Integer[][] field = new Integer[NUM_ROWS][NUM_COLS];
   
   BoardResponse currentBoard;
   
-
+  /**
+   * @param boardResponse
+   */
+  public Board(Board board) {
+    int i = 0;
+    for (int r = 0 ; r < NUM_ROWS; r++) {
+      for (int s = 0; s < NUM_COLS; s++) {
+       field[r][s] = board.get(r, s);
+      }
+    }
+   }
   
   /**
    * @param boardResponse
@@ -38,10 +44,10 @@ public class Board {
   public Board(BoardResponse boardResponse) {
     this.currentBoard = boardResponse;
     int i = 0;
-    Integer[] field = boardResponse.getField();
+    Integer[] responseField = boardResponse.getField();
     for (int r = 0 ; r < NUM_ROWS; r++) {
       for (int s = 0; s < NUM_COLS; s++) {
-        board[r][s] = field[i++];
+        field[r][s] = responseField[i++];
       }
     }
    }
@@ -51,14 +57,13 @@ public class Board {
     for (int r = 0 ; r < NUM_ROWS; r++) {
       System.out.print('|');
       for (int s = 0; s < NUM_COLS; s++) {
-        System.out.print(" " + board[r][s] + " |");
+        System.out.print(" " + field[r][s] + " |");
       }
       System.out.println();
     }
     System.out.println("-----------------------------");
     
   }
-  
 
   /**
    * @return
@@ -75,7 +80,7 @@ public class Board {
    */
   protected Integer slotPosition(Integer s) {
     for (int r = NUM_ROWS - 1; r >= 0; r--) {
-      if (board[r][s] == 0) {
+      if (field[r][s] == 0) {
         return position(r,s);
       }
     }
@@ -106,6 +111,18 @@ public class Board {
   }
   
   public Integer get(int r, int s) {
-    return board[r][s];
+    return field[r][s];
+  }
+
+  /**
+   * @param s
+   */
+  public void addStone(int s, Player player) {
+    for (int r = NUM_ROWS - 1; r >= 0; r--) {
+      if (field[r][s] == 0) {
+        field[r][s] = player.getTag();
+        return;
+      }
+    }   
   }
 }
