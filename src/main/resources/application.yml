@@ -2,8 +2,8 @@ logging:
   level:
     root: INFO
 application:
-  player: player_2
+  player: ${PLAYER}
   depth: 4
-  boardUrl: http://connect-4-api-dev3-connect4.apps.cluster-sva-7909.sva-7909.example.opentlc.com/board
-  startUrl: http://connect-4-api-dev3-connect4.apps.cluster-sva-7909.sva-7909.example.opentlc.com/start
-  turnUrl: http://connect-4-api-dev3-connect4.apps.cluster-sva-7909.sva-7909.example.opentlc.com/turn
+  boardUrl: ${BOARD_URL}
+  startUrl: ${START_URL}
+  turnUrl: ${TURN_URL}
