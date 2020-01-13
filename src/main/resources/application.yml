@@ -4,6 +4,6 @@ logging:
 application:
   player: ${PLAYER}
   depth: 4
-  boardUrl: ${BOARD_URL}
-  startUrl: ${START_URL}
-  turnUrl: ${TURN_URL}
+  boardUrl: ${ENDPOINT}/board
+  startUrl: ${ENDPOINT}/start
+  turnUrl: ${ENDPOINT}/turn
