@@ -8,7 +8,7 @@
  * Synopsis    : 
  **************************************************************************/
 
-package com.example.connect4;
+package com.example.connect4.game;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +23,14 @@ import com.example.connect4.json.Stone;
  */
 public class Board {
 
-  private static final int NUM_COLS = 7;
-  private static final int NUM_ROWS = 6;
+  protected static final int NUM_COLS = 7;
+  protected static final int NUM_ROWS = 6;
   
   private Integer[][] board = new Integer[NUM_ROWS][NUM_COLS];
   
   BoardResponse currentBoard;
   
-  Random rnd = new Random();
+
   
   /**
    * @param boardResponse
@@ -58,6 +58,7 @@ public class Board {
     System.out.println("-----------------------------");
     
   }
+  
 
   /**
    * @return
@@ -66,28 +67,13 @@ public class Board {
     return currentBoard.getTurn();
   }
 
-  /**
-   * @return
-   */
-  public Integer randomMove() {
-    List<Integer> availableSlots = new ArrayList<>();
-    for (int s = 0; s < NUM_COLS; s++) {
-      if (board[0][s] == 0) {
-        availableSlots.add(s);
-      }
-    }
-    if (availableSlots.size() > 0) {
-      Integer i = rnd.nextInt(availableSlots.size());
-      return slot(availableSlots.get(i));
-    }
-    return null;
-  }
+
 
   /**
    * @param integer
    * @return
    */
-  private Integer slot(Integer s) {
+  protected Integer slotPosition(Integer s) {
     for (int r = NUM_ROWS - 1; r >= 0; r--) {
       if (board[r][s] == 0) {
         return position(r,s);
@@ -119,4 +105,7 @@ public class Board {
     return currentBoard.getWin();
   }
   
+  public Integer get(int r, int s) {
+    return board[r][s];
+  }
 }

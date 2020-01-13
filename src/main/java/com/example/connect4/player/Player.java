@@ -10,6 +10,10 @@
 
 package com.example.connect4.player;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +24,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.connect4.Board;
+import com.example.connect4.game.Board;
+import com.example.connect4.game.Evaluator;
 import com.example.connect4.json.BoardResponse;
 import com.example.connect4.json.StartResponse;
+import com.example.connect4.json.Stone;
 import com.example.connect4.json.TurnRequest;
 
 /**
@@ -36,6 +42,10 @@ public class Player {
 
   @Autowired
   private RestTemplate rest;
+  
+  @Autowired
+  private Evaluator evaluator;
+  
   
   private String player;
   
@@ -58,7 +68,7 @@ public class Player {
     board.printBoard();
     while ("running".equals(status)) {
       String player = board.toMove();
-      Integer nextMove = board.randomMove();
+      Integer nextMove = evaluator.randomMove(board);
       turn(player, nextMove);
       board = readBoard();      
       status = board.getStatus();
@@ -69,6 +79,13 @@ public class Player {
         logger.info("Interrupted");
       }
     }
+    Stone[] win = board.getWin();
+    List<String> winner= new ArrayList<>();
+    for (Stone s: win) {
+      winner.add(s.getPosition().toString());
+    }
+    logger.info("Winner is: {}", evaluator.evaluateBoard(board));
+    logger.info("Winning stones: {}", String.join(", ", winner));
   }
 
   /**

@@ -19,8 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.connect4.Board;
 import com.example.connect4.TestApplicationConfiguration;
+import com.example.connect4.game.Board;
 
 /**
  * PlayerTest.
