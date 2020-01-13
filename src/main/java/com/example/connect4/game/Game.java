@@ -46,6 +46,9 @@ public class Game {
   
   @Value("${application.player}")
   private String thisPlayer;
+
+  @Value("${application.depth}")
+  private Integer depth;
   
   @Value("${application.startUrl}")
   private String startUrl;
@@ -68,12 +71,12 @@ public class Game {
       Player player = Player.fromName(board.toMove());
       logger.info("Player {} to move ", board.toMove());
       if (thisPlayer == null || thisPlayer.trim().length() == 0 || thisPlayer.equals(board.toMove())) {
-        Integer nextMove = evaluator.findMove(board, player);
-        logger.info("Player plays slot {} ", nextMove);
-        turn(player, board.slotPosition(nextMove));
+        Move nextMove = evaluator.findBestMove(board, player, depth);
+        logger.info("Player plays slot {} ", nextMove.getSlot());
+        turn(player, board.slotPosition(nextMove.getSlot()));
       }
       try {
-        Thread.sleep(5000);
+        Thread.sleep(500);
       } catch (InterruptedException e) {
         logger.info("Interrupted");
       }

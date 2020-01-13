@@ -30,27 +30,43 @@ public class Evaluator {
   private Random rnd = new Random();
   
   
-  public Integer findMove(Board board, Player player) {
-    List<Integer> moves = new ArrayList<>();
+
+  
+  public Move findBestMove(Board board, Player player, int depth) {
+   // logger.info("Player: {}, Depth: {}", player, depth);
+    List<Move> moves = new ArrayList<>();
     for (int s = 0; s < Board.NUM_COLS; s++) {
       if (!slotIsFree(board, s)) {
-        moves.add(-100);
+        moves.add(new Move(s, -100));
       } else {
         Board bb = new Board(board);
         bb.addStone(s, player);
         Player winner = findWinner(bb);
         if (winner == player) {
-          logger.info("Evaluator sees a winning move for Player {}: slot {}", player.getName(), s);
-          moves.add(100);
+        //  logger.info("Evaluator sees a winning move for Player {}: slot {}", player.getName(), s);
+          moves.add(new Move(s, 100));
         } else if (winner == null) {
-          moves.add(0);
+
+          if (depth > 0) {
+      //      logger.info("Evaluator recursion in depth {} for Player {} and slot {}", depth, player.getName(), s);
+            Player otherPlayer = Player.ONE.equals(player) ? Player.TWO : Player.ONE;
+            Move otherMove = findBestMove(bb, otherPlayer, depth - 1);
+         //   logger.info("Evaluator sees opponents best move as slot {}, value {}", otherMove.getSlot(),
+         //     otherMove.getValue());
+            moves.add(new Move(s, -1 * otherMove.getValue()));
+          } else {
+           // logger.info("Evaluator can't decide on slot {}", s);
+            moves.add(new Move(s, 0));
+          }
         } else {
           logger.info("Evaluator sees a losing move for Player {}: slot {}", player.getName(), s);
-          moves.add(-100);
+          moves.add(new Move(s, -100));
         }
       }
-    }    
-    return bestMove(moves);
+    }
+    Move opt = bestMove(moves);
+   // logger.info("Best move is slot {}", opt.getSlot());
+    return opt;
   }
   
   
@@ -58,17 +74,17 @@ public class Evaluator {
    * @param moves
    * @return
    */
-  private Integer bestMove(List<Integer> moves) {
-    int score = 0;
-    for (Integer i: moves) {
-      if (i > score) {
-        score = i;
+  private Move bestMove(List<Move> moves) {
+    int hiScore = moves.get(0).getValue();
+    for (Move i: moves) {
+      if (i.getValue() > hiScore) {
+        hiScore = i.getValue();
       }
     }
-    List<Integer> candidates = new ArrayList<>();
+    List<Move> candidates = new ArrayList<>();
     for (int i = 0; i < moves.size(); i++) {
-      if (moves.get(i) == score) {
-        candidates.add(i);
+      if (moves.get(i).getValue() == hiScore) {
+        candidates.add(moves.get(i));
       }
     }
     Integer i = rnd.nextInt(candidates.size());
