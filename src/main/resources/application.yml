@@ -2,6 +2,7 @@ logging:
   level:
     root: INFO
 application:
+  player: 
   boardUrl: http://connect-4-api-dev3-connect4.apps.cluster-sva-7909.sva-7909.example.opentlc.com/board
   startUrl: http://connect-4-api-dev3-connect4.apps.cluster-sva-7909.sva-7909.example.opentlc.com/start
   turnUrl: http://connect-4-api-dev3-connect4.apps.cluster-sva-7909.sva-7909.example.opentlc.com/turn
