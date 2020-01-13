@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.example.connect4.json.BoardResponse;
+import com.example.connect4.json.Stone;
 
 /**
  * Board.
@@ -71,7 +72,7 @@ public class Board {
   public Integer randomMove() {
     List<Integer> availableSlots = new ArrayList<>();
     for (int s = 0; s < NUM_COLS; s++) {
-      if (board[NUM_ROWS-1][s] == 0) {
+      if (board[0][s] == 0) {
         availableSlots.add(s);
       }
     }
@@ -102,6 +103,20 @@ public class Board {
    */
   private Integer position(int r, int s) {
     return r * NUM_COLS + s;
+  }
+
+  /**
+   * @return
+   */
+  public String getStatus() {
+    return currentBoard.getStatus();
+  }
+
+  /**
+   * @return
+   */
+  public Stone[] getWin() {
+    return currentBoard.getWin();
   }
   
 }

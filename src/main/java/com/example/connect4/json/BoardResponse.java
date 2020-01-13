@@ -23,7 +23,7 @@ public class BoardResponse {
   private String turn;
   private Integer moves;
   private String status;
-  //private String[] win;
+  private Stone[] win;
   
   /**
    * @return the field
@@ -80,20 +80,23 @@ public class BoardResponse {
   public void setStatus(String status) {
     this.status = status;
   }
+
   
-//  /**
-//   * @return the win
-//   */
-//  public String[] getWin() {
-//    return win;
-//  }
-//  
-//  /**
-//   * @param win the win to set
-//   */
-//  public void setWin(String[] win) {
-//    this.win = win;
-//  }
+  /**
+   * @return the win
+   */
+  public Stone[] getWin() {
+    return win;
+  }
+
   
+  /**
+   * @param win the win to set
+   */
+  public void setWin(Stone[] win) {
+    this.win = win;
+  }
+  
+
 
 }
