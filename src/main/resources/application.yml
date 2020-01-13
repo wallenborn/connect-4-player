@@ -1,6 +1,6 @@
 logging:
   level:
-    root: DEBUG
+    root: INFO
 application:
   boardUrl: http://connect-4-api-dev3-connect4.apps.cluster-sva-7909.sva-7909.example.opentlc.com/board
   startUrl: http://connect-4-api-dev3-connect4.apps.cluster-sva-7909.sva-7909.example.opentlc.com/start
